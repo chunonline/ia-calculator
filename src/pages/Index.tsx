@@ -11,7 +11,7 @@ const Index = () => {
             Data Points Pricing Calculator
           </h1>
           <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Calculate your monthly costs based on your expected data usage. Adjust the slider to see how pricing scales with your needs.
+            Calculate your yearly costs based on your expected data usage. Adjust the slider to see how pricing scales with your needs.
           </p>
         </div>
 

@@ -86,3 +86,11 @@ export const calculatePrice = (
   
   return tier.basePrice + additionalCost;
 };
+
+export const calculateUnitPrice = (
+  tier: PricingTier,
+  dataPoints: number
+): number => {
+  const totalPrice = calculatePrice(tier, dataPoints);
+  return dataPoints > 0 ? (totalPrice / dataPoints) * 1000 : 0;
+};

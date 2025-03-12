@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PricingCard } from "./PricingCard";
-import { pricingTiers, calculatePrice, formatNumber, type PricingTier } from "@/config/pricing";
+import { pricingTiers, calculatePrice, calculateUnitPrice, formatNumber, type PricingTier } from "@/config/pricing";
 import { Card, CardContent } from "@/components/ui/card";
 import { DatabaseIcon } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PricingChart } from "./PricingChart";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 const MAX_DATA_POINTS = 50000000; // 50M
 const DATA_POINTS_STEPS = [
@@ -62,30 +60,10 @@ export function Calculator() {
 
   const selectedTier = pricingTiers.find(tier => tier.id === selectedTierId) || pricingTiers[0];
   
-  // Generate price comparison data for the chart
-  const comparisonData = pricingTiers.map(tier => {
-    return {
-      name: tier.name,
-      price: calculatePrice(tier, dataPointsUsage),
-      isSelected: tier.id === selectedTierId,
-    };
-  });
-
-  // Get tier prices at different data point levels for the chart
-  const getTierPricesAtDifferentLevels = () => {
-    return pricingTiers.map(tier => {
-      return {
-        name: tier.name,
-        isSelected: tier.id === selectedTierId,
-        dataPoints: DATA_POINTS_STEPS.map(dataPoints => ({
-          dataPoints,
-          price: calculatePrice(tier, dataPoints)
-        }))
-      };
-    });
-  };
-  
-  const priceTrends = getTierPricesAtDifferentLevels();
+  // Calculate pricing information
+  const calculatedPrice = calculatePrice(selectedTier, dataPointsUsage);
+  const yearlyPrice = calculatedPrice * 12;
+  const unitPrice = calculateUnitPrice(selectedTier, dataPointsUsage);
 
   return (
     <div className="container max-w-6xl mx-auto">
@@ -96,7 +74,7 @@ export function Calculator() {
               <div className="flex items-center space-x-2">
                 <DatabaseIcon className="h-5 w-5 text-brand-purple" />
                 <Label htmlFor="data-points" className="font-medium">
-                  Monthly Data Points Usage
+                  Yearly Data Points Usage
                 </Label>
               </div>
               
@@ -127,39 +105,27 @@ export function Calculator() {
           </CardContent>
         </Card>
 
-        <Tabs defaultValue="plans" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-            <TabsTrigger value="plans">Plans</TabsTrigger>
-            <TabsTrigger value="comparison">Price Comparison</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="plans" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {pricingTiers.map((tier) => (
-                <PricingCard
-                  key={tier.id}
-                  tier={tier}
-                  isSelected={selectedTierId === tier.id}
-                  onSelect={setSelectedTierId}
-                  calculatedPrice={calculatePrice(tier, dataPointsUsage)}
-                  dataPointsUsage={dataPointsUsage}
-                />
-              ))}
+        <Card className="shadow-md">
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex flex-col space-y-2">
+                <h3 className="text-xl font-semibold">Unit Price</h3>
+                <p className="text-muted-foreground text-sm">Cost per 1,000 data points</p>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold">{formatCurrency(unitPrice)}</span>
+                </div>
+              </div>
+              
+              <div className="flex flex-col space-y-2">
+                <h3 className="text-xl font-semibold">Yearly Total</h3>
+                <p className="text-muted-foreground text-sm">Annual cost based on your usage</p>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold">{formatCurrency(yearlyPrice)}</span>
+                </div>
+              </div>
             </div>
-          </TabsContent>
-          
-          <TabsContent value="comparison" className="mt-0">
-            <Card className="shadow-md">
-              <CardContent className="p-6">
-                <PricingChart 
-                  comparisonData={comparisonData} 
-                  priceTrends={priceTrends} 
-                  dataPointsUsage={dataPointsUsage}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
