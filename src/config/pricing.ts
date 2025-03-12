@@ -91,12 +91,20 @@ export const calculateUnitPrice = (
   tier: PricingTier,
   dataPoints: number
 ): number => {
-  // For smaller volumes, we use the tier's included data points to calculate unit price
+  // Dynamic unit price calculation based on data points usage
+  if (dataPoints <= 0) return 0;
+  
+  // For volumes within the included data points, calculate base unit price
   if (dataPoints <= tier.dataPointsIncluded) {
     return (tier.basePrice / tier.dataPointsIncluded) * 1000;
   }
   
-  // For larger volumes, calculate the effective unit price based on the total cost
-  const totalPrice = calculatePrice(tier, dataPoints);
-  return (totalPrice / dataPoints) * 1000;
+  // For volumes exceeding included data points, calculate blended rate
+  const includedCost = tier.basePrice;
+  const additionalDataPoints = dataPoints - tier.dataPointsIncluded;
+  const additionalCost = (additionalDataPoints / 1000) * tier.additionalCostPer1k;
+  const totalCost = includedCost + additionalCost;
+  
+  // Return the blended rate per 1000 data points
+  return (totalCost / dataPoints) * 1000;
 };
