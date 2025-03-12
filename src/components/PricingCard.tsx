@@ -20,12 +20,12 @@ export function PricingCard({ tier, isSelected, onSelect, calculatedPrice, dataP
   return (
     <Card className={cn(
       "w-full transition-all duration-200",
-      isSelected ? "border-brand-purple ring-2 ring-brand-purple shadow-lg scale-105" : "hover:shadow-md",
+      isSelected ? "border-black ring-2 ring-black dark:ring-white dark:border-white shadow-lg scale-105" : "hover:shadow-md",
       tier.isPopular ? "relative" : ""
     )}>
       {tier.isPopular && (
         <div className="absolute -top-4 left-0 right-0 flex justify-center">
-          <span className="bg-brand-purple text-white text-xs px-3 py-1 rounded-full">
+          <span className="bg-black text-white dark:bg-white dark:text-black text-xs px-3 py-1 rounded-full">
             Most Popular
           </span>
         </div>
@@ -53,8 +53,8 @@ export function PricingCard({ tier, isSelected, onSelect, calculatedPrice, dataP
             <span className={cn(
               "inline-block rounded-full px-2 py-1 text-xs font-medium",
               isExceeded 
-                ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" 
-                : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                ? "bg-gray-200 text-black dark:bg-gray-800 dark:text-white" 
+                : "bg-gray-200 text-black dark:bg-gray-800 dark:text-white"
             )}>
               Using {formatNumber(dataPointsUsage)} of {formatNumber(tier.dataPointsIncluded)} data points
             </span>
@@ -62,7 +62,7 @@ export function PricingCard({ tier, isSelected, onSelect, calculatedPrice, dataP
           <ul className="space-y-2">
             {tier.features.map((feature, i) => (
               <li key={i} className="flex items-start">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                <CheckCircle className="h-5 w-5 text-black dark:text-white mr-2 flex-shrink-0" />
                 <span className="text-sm">{feature}</span>
               </li>
             ))}
@@ -74,7 +74,7 @@ export function PricingCard({ tier, isSelected, onSelect, calculatedPrice, dataP
           variant={isSelected ? "default" : "outline"} 
           className={cn(
             "w-full", 
-            isSelected && "bg-brand-purple hover:bg-brand-purple/90"
+            isSelected && "bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
           )}
           onClick={() => onSelect(tier.id)}
         >

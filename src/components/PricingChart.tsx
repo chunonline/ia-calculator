@@ -96,6 +96,11 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
 
   const closestDataPoint = findClosestDataPoint(dataPointsUsage);
 
+  // Fixed color mapping function for Bar
+  const getBarFillColor = (entry: any) => {
+    return entry.isSelected ? "#000000" : "#555555";
+  };
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="current" className="w-full">
@@ -122,7 +127,7 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
                   dataKey="price" 
                   name="Monthly Price"
                   radius={[4, 4, 0, 0]}
-                  fill={(data: any) => data.isSelected ? "#8B5CF6" : "#0EA5E9"}
+                  fill="#000000"
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -136,7 +141,7 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
                 variant={chartType === "line" ? "default" : "outline"} 
                 size="sm"
                 onClick={() => setChartType("line")}
-                className={chartType === "line" ? "bg-brand-purple hover:bg-brand-purple/90" : ""}
+                className={chartType === "line" ? "bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200" : ""}
               >
                 Line
               </Button>
@@ -144,7 +149,7 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
                 variant={chartType === "bar" ? "default" : "outline"} 
                 size="sm"
                 onClick={() => setChartType("bar")}
-                className={chartType === "bar" ? "bg-brand-purple hover:bg-brand-purple/90" : ""}
+                className={chartType === "bar" ? "bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200" : ""}
               >
                 Bar
               </Button>
@@ -183,9 +188,9 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
                       key={tier.name}
                       type="monotone"
                       dataKey={tier.name}
-                      stroke={tier.isSelected ? "#8B5CF6" : index === 0 ? "#4F46E5" : index === 1 ? "#0EA5E9" : "#64748B"}
+                      stroke={tier.isSelected ? "#000000" : "#555555"}
                       strokeWidth={tier.isSelected ? 3 : 2}
-                      activeDot={{ r: 8, fill: tier.isSelected ? "#8B5CF6" : "auto" }}
+                      activeDot={{ r: 8, fill: tier.isSelected ? "#000000" : "#555555" }}
                       dot={{ r: 4 }}
                     />
                   ))}
@@ -195,7 +200,7 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
                     verticalPoints={[
                       lineChartData.findIndex(item => item.dataPoints === closestDataPoint)
                     ]}
-                    stroke="#8B5CF6"
+                    stroke="#000000"
                     strokeDasharray="5 5"
                     strokeWidth={1.5}
                   />
@@ -229,7 +234,7 @@ export function PricingChart({ comparisonData, priceTrends, dataPointsUsage }: P
                     <Bar
                       key={tier.name}
                       dataKey={tier.name}
-                      fill={tier.isSelected ? "#8B5CF6" : index === 0 ? "#4F46E5" : index === 1 ? "#0EA5E9" : "#64748B"}
+                      fill={tier.isSelected ? "#000000" : "#555555"}
                       opacity={tier.isSelected ? 1 : 0.8}
                       radius={[4, 4, 0, 0]}
                     />

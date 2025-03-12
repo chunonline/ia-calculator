@@ -63,12 +63,12 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom colors for our pricing calculator
+				// Updated brand colors to black and white only
 				brand: {
-					blue: '#0EA5E9',
-					purple: '#8B5CF6',
-					lightBlue: '#D3E4FD',
-					lightPurple: '#E5DEFF',
+					blue: '#000000',
+					purple: '#000000',
+					lightBlue: '#F1F1F1',
+					lightPurple: '#F1F1F1',
 				}
 			},
 			borderRadius: {
