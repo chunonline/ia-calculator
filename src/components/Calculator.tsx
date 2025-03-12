@@ -61,9 +61,8 @@ export function Calculator() {
   const selectedTier = pricingTiers.find(tier => tier.id === selectedTierId) || pricingTiers[0];
   
   // Calculate pricing information
-  const calculatedPrice = calculatePrice(selectedTier, dataPointsUsage);
-  const yearlyPrice = calculatedPrice * 12;
   const unitPrice = calculateUnitPrice(selectedTier, dataPointsUsage);
+  const yearlyPrice = dataPointsUsage * (unitPrice / 1000);
 
   return (
     <div className="container max-w-6xl mx-auto">

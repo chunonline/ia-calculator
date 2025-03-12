@@ -91,6 +91,12 @@ export const calculateUnitPrice = (
   tier: PricingTier,
   dataPoints: number
 ): number => {
+  // For smaller volumes, we use the tier's included data points to calculate unit price
+  if (dataPoints <= tier.dataPointsIncluded) {
+    return (tier.basePrice / tier.dataPointsIncluded) * 1000;
+  }
+  
+  // For larger volumes, calculate the effective unit price based on the total cost
   const totalPrice = calculatePrice(tier, dataPoints);
-  return dataPoints > 0 ? (totalPrice / dataPoints) * 1000 : 0;
+  return (totalPrice / dataPoints) * 1000;
 };
