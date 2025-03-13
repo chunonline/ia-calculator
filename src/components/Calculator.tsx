@@ -81,7 +81,7 @@ export function Calculator() {
               <div className="flex items-center space-x-2">
                 <DatabaseIcon className="h-5 w-5 text-brand-purple" />
                 <Label htmlFor="data-points" className="font-medium">
-                  Points: {formatNumber(points)}
+                  Yearly Data Points: {formatNumber(points)}
                 </Label>
               </div>
               
