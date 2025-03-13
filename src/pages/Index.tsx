@@ -7,10 +7,10 @@ const Index = () => {
       <div className="container px-4 py-16 mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black dark:text-white">
-            Data Points Calculator
+            IA Price Calculator
           </h1>
           <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Calculate your yearly costs based on the expected yearly data usage. Adjust the slider to see how pricing scales.
+            Calculate the yearly costs based on the expected yearly data usage. Adjust the slider to see how pricing scales.
           </p>
         </div>
 
